@@ -17,7 +17,6 @@
  */
 package at.laborg.briss.exception;
 
-@SuppressWarnings("serial")
 public class CropException extends Exception {
 
 	public CropException(final String message) {

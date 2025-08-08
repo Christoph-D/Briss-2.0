@@ -291,11 +291,17 @@ public class FileDrop {
 							evt.acceptDrop(java.awt.dnd.DnDConstants.ACTION_COPY);
 							log(out, "FileDrop: file list accepted.");
 
-							// Get a useful list
-							java.util.List fileList = (java.util.List) tr
+							// Get a useful list with type safety
+							Object transferData = tr
 									.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
-							java.util.Iterator iterator = fileList.iterator();
-
+							java.util.List<File> fileList = new java.util.ArrayList<File>();
+							if (transferData instanceof java.util.List) {
+								for (Object item : (java.util.List<?>) transferData) {
+									if (item instanceof File) {
+										fileList.add((File) item);
+									}
+								}
+							}
 							// Convert list to array
 							java.io.File[] filesTemp = new java.io.File[fileList.size()];
 							fileList.toArray(filesTemp);
@@ -399,7 +405,7 @@ public class FileDrop {
 		if (supportsDnD == null) {
 			boolean support = false;
 			try {
-				Class arbitraryDndClass = Class.forName("java.awt.dnd.DnDConstants");
+				Class.forName("java.awt.dnd.DnDConstants");
 				support = true;
 			} // end try
 			catch (Exception e) {
@@ -415,7 +421,7 @@ public class FileDrop {
 
 	private static File[] createFileArray(BufferedReader bReader, PrintStream out) {
 		try {
-			java.util.List list = new java.util.ArrayList();
+			java.util.List<File> list = new java.util.ArrayList<File>();
 			java.lang.String line = null;
 			while ((line = bReader.readLine()) != null) {
 				try {
@@ -762,7 +768,7 @@ public class FileDrop {
 		 * @see Fetcher
 		 * @since 1.1
 		 */
-		public TransferableObject(Class dataClass, Fetcher fetcher) {
+		public TransferableObject(Class<?> dataClass, Fetcher fetcher) {
 			this.fetcher = fetcher;
 			this.customFlavor = new java.awt.datatransfer.DataFlavor(dataClass, MIME_TYPE);
 		} // end constructor

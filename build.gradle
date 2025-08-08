@@ -1,34 +1,36 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.gradleup.shadow' version '9.0.0'
     id 'application'
     id 'eclipse'
-    id "com.diffplug.spotless" version "6.9.0"
+    id "com.diffplug.spotless" version "7.2.1"
 }
 
-mainClassName = 'at.laborg.briss.Briss'
-applicationDefaultJvmArgs = ["-Xms128m", "-Xmx1024m"]
+application {
+    mainClass = 'at.laborg.briss.Briss'
+    applicationDefaultJvmArgs = ["-Xms128m", "-Xmx1024m"]
+}
 
 repositories {
-    maven { url "https://clojars.org/repo" } // For jpedal
-    maven { url "https://maven.geotoolkit.org/" } // For jpedal transitive dependencies
+    maven { url = "https://clojars.org/repo" } // For jpedal
+    maven { url = "https://maven.geotoolkit.org/" } // For jpedal transitive dependencies
     mavenCentral()
 }
 
 dependencies {
     implementation 'com.itextpdf:itextpdf:5.5.13.4'
     implementation 'org.jpedal:jpedal-lgpl:4.74b27'
-    implementation 'org.bouncycastle:bcprov-jdk18on:1.79'
-    implementation 'org.bouncycastle:bcpkix-jdk18on:1.79'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.81'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.81'
 
-
-    testImplementation(platform('org.junit:junit-bom:5.10.3'))
-    testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 jar {

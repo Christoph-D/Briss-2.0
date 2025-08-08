@@ -510,12 +510,12 @@ public class MergedPanel extends JPanel {
 		public void keyPressed(KeyEvent e) {
 			switch (e.getKeyCode()) {
 				case KeyEvent.VK_C :
-					if (e.getModifiersEx() == Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) {
+					if (e.getModifiersEx() == Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()) {
 						copyToClipBoard();
 					}
 					break;
 				case KeyEvent.VK_V :
-					if (e.getModifiersEx() == Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) {
+					if (e.getModifiersEx() == Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()) {
 						pasteFromClipBoard();
 					}
 					break;
@@ -870,7 +870,6 @@ public class MergedPanel extends JPanel {
 			new PopUpMenuForCropRectangles().show(e.getComponent(), e.getX(), e.getY());
 		}
 
-		@SuppressWarnings("serial")
 		private class PopUpMenuForCropRectangles extends JPopupMenu {
 			public static final String DELETE = "Delete rectangle";
 			public static final String SELECT_DESELECT = "Select/Deselect rectangle";
